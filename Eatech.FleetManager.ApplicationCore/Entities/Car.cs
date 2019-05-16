@@ -4,6 +4,7 @@ namespace Eatech.FleetManager.ApplicationCore.Entities
 {
     public class Car
     {
+
         public Guid Id { get; set; }
 
         public string Make { get; set; }

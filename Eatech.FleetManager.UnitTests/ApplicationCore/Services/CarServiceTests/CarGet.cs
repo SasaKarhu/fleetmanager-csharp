@@ -11,7 +11,7 @@ namespace Eatech.FleetManager.UnitTests.ApplicationCore.Services.CarServiceTests
         [Fact]
         public async void AllCars()
         {
-            ICarService carService = new CarService();
+            ICarService carService = new CarServiceMock();
 
             var cars = (await carService.GetAll()).ToList();
 
@@ -23,7 +23,7 @@ namespace Eatech.FleetManager.UnitTests.ApplicationCore.Services.CarServiceTests
         [Fact]
         public async void ExistingCardWithId()
         {
-            ICarService carService = new CarService();
+            ICarService carService = new CarServiceMock();
             var carId = Guid.Parse("d9417f10-5c79-44a0-9137-4eba914a82a9");
 
             var car = await carService.Get(carId);
@@ -35,7 +35,7 @@ namespace Eatech.FleetManager.UnitTests.ApplicationCore.Services.CarServiceTests
         [Fact]
         public async void NonExistingCardWithId()
         {
-            ICarService carService = new CarService();
+            ICarService carService = new CarServiceMock();
             var carId = Guid.Parse("d9417f10-1111-1111-1111-4eba914a82a9");
 
             var car = await carService.Get(carId);

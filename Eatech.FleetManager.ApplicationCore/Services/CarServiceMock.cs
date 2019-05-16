@@ -8,14 +8,9 @@ using Eatech.FleetManager.ApplicationCore.Interfaces;
 
 namespace Eatech.FleetManager.ApplicationCore.Services
 {
-    public class CarService : ICarService
+    public class CarServiceMock : ICarService
     {
-        private readonly FleetDbContext _context;
 
-        public CarService(FleetDbContext context)
-        {
-            _context = context;
-        }
         /// <summary>
         ///     Remove this. Temporary car storage before proper data storage is implemented.
         /// </summary>
