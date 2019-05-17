@@ -49,5 +49,41 @@ namespace Eatech.FleetManager.ApplicationCore.Services
         {
             return await Task.FromResult(TempCars.FirstOrDefault(c => c.Id == id));
         }
+
+        public async Task<Car> Create(Car car)
+        {
+            //temporary
+            return await Task.FromResult(TempCars.FirstOrDefault(c => c.Id == car.Id));
+            /*
+            await _context.Cars.AddAsync(car);
+
+            if (_context.SaveChanges() == 0)
+            {
+                //nothing was saved, return nothing.
+                return null;
+            }
+            else
+            {
+                //this should also have newly created id added by SaveChanges.
+                return car;
+            }
+            */
+        }
+
+        public async Task<Car> Update(Car car)
+        {
+            //temporary
+            return await Task.FromResult(TempCars.FirstOrDefault(c => c.Id == car.Id));
+
+        }
+
+        public async Task<bool> Delete(Car car)
+        {
+            //temporary
+            await Task.FromResult(TempCars.FirstOrDefault(c => c.Id == car.Id));
+            return true;
+                
+
+        }
     }
 }

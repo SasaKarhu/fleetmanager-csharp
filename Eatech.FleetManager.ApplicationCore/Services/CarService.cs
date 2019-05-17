@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Eatech.FleetManager.ApplicationCore.Entities;
 using Eatech.FleetManager.ApplicationCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eatech.FleetManager.ApplicationCore.Services
 {
@@ -16,43 +17,66 @@ namespace Eatech.FleetManager.ApplicationCore.Services
         {
             _context = context;
         }
-        /// <summary>
-        ///     Remove this. Temporary car storage before proper data storage is implemented.
-        /// </summary>
-        private static readonly ImmutableList<Car> TempCars = new List<Car>
-        {
-            new Car
-            {
-                Id = Guid.Parse("d9417f10-5c79-44a0-9137-4eba914a82a9"),
-                Make = "Make 2",
-                Model = "Malli 3",
-                Registration = "XYZ-123",
-                Year = 1998,
-                InspectionDate = new DateTime(2017,3,12),
-                EngineSize = 2789.2,
-                EnginePower = 235
-            },
-            new Car
-            {
-                Id = Guid.NewGuid(),
-                Make = "Make 1",
-                Model = "Malli 2",
-                Registration = "XYZ-124",
-                Year = 2003,
-                InspectionDate = new DateTime(2018,4,11),
-                EngineSize = 2606.2,
-                EnginePower = 222
-            }
-        }.ToImmutableList();
 
         public async Task<IEnumerable<Car>> GetAll()
         {
-            return await Task.FromResult(TempCars);
+            IEnumerable<Car> cars = await _context.Cars.ToListAsync();
+            return cars;
         }
 
         public async Task<Car> Get(Guid id)
         {
-            return await Task.FromResult(TempCars.FirstOrDefault(c => c.Id == id));
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+            return car;
+        }
+
+        public async Task<Car> Create(Car car)
+        {
+            await _context.Cars.AddAsync(car);
+
+            if(_context.SaveChanges() == 0)
+            {
+                //nothing was saved, return nothing.
+                return null;
+            }
+            else
+            {
+                //this should also have newly created id added by SaveChanges.
+                return car;
+            }
+
+        }
+
+        public async Task<Car> Update(Car car)
+        {
+            var ExistingCar = await _context.Cars.FirstOrDefaultAsync(c => c.Id == car.Id);
+
+            if (_context.SaveChanges() == 0)
+            {
+                //nothing was saved, return nothing.
+                return null;
+            }
+            else
+            {
+                //Updated car data.
+                return car;
+            }
+
+        }
+
+        public async Task<bool> Delete(Car car)
+        {
+            _context.Cars.Remove(car);
+
+            if (_context.SaveChanges() == 0)
+            {
+                //nothing was saved, return nothing.
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

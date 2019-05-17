@@ -61,5 +61,94 @@ namespace Eatech.FleetManager.Web.Controllers
                 EnginePower = car.EnginePower
             });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]CarDto inputcar)
+        {
+            if(inputcar == null)
+            {
+                return BadRequest();
+            }
+
+            var car = await _carService.Create(new Car
+            {
+                Make = inputcar.Make,
+                Model = inputcar.Model,
+                Registration = inputcar.Registration,
+                Year = inputcar.Year,
+                InspectionDate = inputcar.InspectionDate,
+                EngineSize = inputcar.EngineSize,
+                EnginePower = inputcar.EnginePower
+            });
+
+            if (car == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(new CarDto
+                {
+                    Id = car.Id,
+                    Make = car.Make,
+                    Model = car.Model,
+                    Registration = car.Registration,
+                    Year = car.Year,
+                    InspectionDate = car.InspectionDate,
+                    EngineSize = car.EngineSize,
+                    EnginePower = car.EnginePower
+                });
+            }
+
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id,[FromBody]CarDto inputcar)
+        {
+            if (inputcar == null || id == null)
+            {
+                return BadRequest();
+            }
+
+            Car car = await _carService.Get(id);
+
+            if (car == null)
+            {
+                return NotFound();
+
+            } else
+            {
+                car.Make = inputcar.Make;
+                car.Model = inputcar.Model;
+                car.Registration = inputcar.Registration;
+                car.Year = inputcar.Year;
+                car.InspectionDate = inputcar.InspectionDate;
+                car.EngineSize = inputcar.EngineSize;
+                car.EnginePower = inputcar.EnginePower;
+
+                return Ok(await _carService.Update(car));
+            }
+
+            
+            
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var car = await _carService.Get(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await _carService.Delete(car);
+                return Ok();
+            }
+
+        }
+
+
     }
 }
