@@ -78,5 +78,17 @@ namespace Eatech.FleetManager.ApplicationCore.Services
                 return true;
             }
         }
+
+        public async Task<IEnumerable<Car>> Search(CarFilter f)
+        {
+            IEnumerable<Car> cars = await _context.Cars.AsNoTracking().Where(
+                x => x.Year >= f.YearMin &&
+                     x.Year <= f.YearMax &&
+                     (string.IsNullOrEmpty(f.Make) || x.Make == f.Make) &&
+                     (string.IsNullOrEmpty(f.Model) || x.Model == f.Model)
+                     )
+                     .ToListAsync();
+            return cars;
+        }
     }
 }

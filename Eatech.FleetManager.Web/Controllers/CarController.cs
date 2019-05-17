@@ -149,6 +149,50 @@ namespace Eatech.FleetManager.Web.Controllers
 
         }
 
+        [Route("Search")]
+        [HttpGet]
+        public async Task<IEnumerable<CarDto>> Search([FromQuery]CarFilter filter)
+        {
+            if(filter == null)
+            {
+                return (await _carService.GetAll()).Select(car => new CarDto
+                {
+                    Id = car.Id,
+                    Make = car.Make,
+                    Model = car.Model,
+                    Registration = car.Registration,
+                    Year = car.Year,
+                    InspectionDate = car.InspectionDate,
+                    EngineSize = car.EngineSize,
+                    EnginePower = car.EnginePower
+                });
+            }
+            else
+            {
+                if(filter.YearMin == null)
+                {
+                    filter.YearMin = int.MinValue;
+                }
+
+                if(filter.YearMax == null)
+                {
+                    filter.YearMax = int.MaxValue;
+                }
+
+                return (await _carService.Search(filter)).Select(car => new CarDto
+                {
+                    Id = car.Id,
+                    Make = car.Make,
+                    Model = car.Model,
+                    Registration = car.Registration,
+                    Year = car.Year,
+                    InspectionDate = car.InspectionDate,
+                    EngineSize = car.EngineSize,
+                    EnginePower = car.EnginePower
+                });
+            }
+        }
+
 
     }
 }

@@ -85,5 +85,10 @@ namespace Eatech.FleetManager.ApplicationCore.Services
                 
 
         }
+
+        public async Task<IEnumerable<Car>> Search(CarFilter f)
+        {
+            return await Task.FromResult(TempCars);
+        }
     }
 }

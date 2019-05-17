@@ -16,5 +16,7 @@ namespace Eatech.FleetManager.ApplicationCore.Interfaces
         Task<Car> Update(Car c);
 
         Task<bool> Delete(Car car);
+
+        Task<IEnumerable<Car>> Search(CarFilter f);
     }
 }
