@@ -19,8 +19,11 @@ UnitTestit muutettu käyttämään InMemoryDatabasea ja lisätty muutama testi.
 esim. visual studiolla:
 
 Vaihda Startup.cs tietokanta yhteys osoittamaan, johonkin MS sql serveriin.
+
 var connection = @"Server=localhost;Database=fleet_db;Trusted_Connection=True;ConnectRetryCount=0";
+
 Tietokannan voi luoda Solutionin Migraation avulla Package Manager Consolesta komennolla:
+
 Update-Database
 
 <h2>POSTMAN kutsut:</h2>
